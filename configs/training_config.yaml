@@ -1,0 +1,64 @@
+# Training Configuration
+
+# Model Configuration
+model_size: n  # n (nano), s (small), m (medium), l (large), x (xlarge)
+pretrained: true
+
+# Training Parameters
+epochs: 100
+batch_size: 32
+learning_rate: 0.001
+momentum: 0.937
+weight_decay: 0.0005
+
+# Data
+data_path: 'data/dataset.yaml'
+train_dir: 'data/train'
+val_dir: 'data/val'
+test_dir: 'data/test'
+
+# Device
+device: cuda  # cuda or cpu
+num_workers: 4
+mixed_precision: true  # Automatic Mixed Precision
+
+# Optimization
+optimizer: adam  # adam or sgd
+scheduler: cosine  # cosine or linear
+warmup_epochs: 5
+
+# Early Stopping
+patience: 20
+monitor_metric: val_loss
+
+# Logging
+log_interval: 10
+save_interval: 5
+save_dir: 'runs/train'
+resume: null
+
+# Compression Techniques
+compression:
+  quantization:
+    enabled: true
+    type: dynamic  # dynamic or static
+    dtype: int8
+  
+  pruning:
+    enabled: true
+    method: magnitude  # magnitude or structured
+    ratio: 0.3
+    iterations: 5
+  
+  distillation:
+    enabled: true
+    temperature: 4.0
+    alpha: 0.7
+    teacher_size: m  # size of teacher model
+
+# Evaluation
+evaluation:
+  val_interval: 1
+  iou_threshold: 0.5
+  confidence_threshold: 0.5
+  metrics: [mAP, mAP50, precision, recall]
